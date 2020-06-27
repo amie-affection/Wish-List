@@ -1,31 +1,50 @@
 import React, { Component } from "react";
+import shortID from "shortid";
+import Input from "../input/Input";
+import config from "../../inputConfig.json";
+console.log(config);
+
+console.log(Object.keys(config));
+
+const initialState = {
+  [config.wish.name]: "",
+  [config.description.name]: "",
+};
 
 class Form extends Component {
-  state = {
-    wish: "",
-  };
+  state = initialState;
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log("form");
-    console.log(event);
-    console.log(event.target.value);
-    console.log(event.target.elements);
-    this.setState({ wish: event.target.value });
+
+    const wish = {
+      ...this.state,
+      date: new Date().toDateString(),
+      id: shortID(),
+    };
+    if (this.state.wish.trim()) {
+      this.props.getWishes(wish);
+    }
+    this.setState(initialState);
   };
 
-  handleChange = (event) => {
-    console.log(event.target.value);
+  handleChange = ({ target: { name, value } }) => {
+    this.setState({ [name]: value });
   };
 
   render() {
     console.log("re-render");
     return (
-      <form onSubmit={(e) => this.handleSubmit}>
-        <input
-          placeholder="enter your wish"
-          name="wish"
+      <form onSubmit={this.handleSubmit}>
+        <Input
+          {...config.wish}
           onChange={this.handleChange}
+          value={this.state.wish}
+        />
+        <Input
+          {...config.description}
+          onChange={this.handleChange}
+          value={this.state.description}
         />
         <button type="submit">add</button>
       </form>

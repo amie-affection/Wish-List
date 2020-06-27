@@ -1,0 +1,12 @@
+{
+  "wish": {
+    "placeholder": "enter your wish",
+    "name": "wish",
+    "label": "Wish"
+  },
+  "description": {
+    "placeholder": "about your wish",
+    "name": "description",
+    "label": "Description"
+  }
+}
